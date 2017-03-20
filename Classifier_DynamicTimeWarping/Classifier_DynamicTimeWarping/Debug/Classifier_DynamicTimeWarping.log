@@ -1,0 +1,16 @@
+﻿  MyMath.cpp
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\mymath.cpp(17): warning C4018: '<': signed/unsigned mismatch
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\mymath.cpp(30): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  Source.cpp
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\source.cpp(10): warning C4018: '<': signed/unsigned mismatch
+  Feature.cpp
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\feature.cpp(31): warning C4018: '<': signed/unsigned mismatch
+  Classifier_DTW.cpp
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier_dtw.cpp(7): warning C4018: '<': signed/unsigned mismatch
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier_dtw.cpp(19): warning C4018: '<': signed/unsigned mismatch
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier_dtw.cpp(72): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Classifier_DynamicTimeWarping.vcxproj -> d:\documents\visual studio 2017\Projects\Classifier_DynamicTimeWarping\Debug\Classifier_DynamicTimeWarping.exe
+  Classifier_DynamicTimeWarping.vcxproj -> d:\documents\visual studio 2017\Projects\Classifier_DynamicTimeWarping\Debug\Classifier_DynamicTimeWarping.pdb (Partial PDB)
