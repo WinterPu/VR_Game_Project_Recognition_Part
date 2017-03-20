@@ -11,7 +11,7 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 
 	std::vector<std::vector<MathType>> matrix = ConvertToMatrix(pattern_points);
 	std::vector<std::vector<MathType>> matrix_t = TransposeMatrix(matrix);
-	std::vector<std::vector<MathType>> matrix_tmp = MultipleMatrices(matrix, matrix_t);
+	std::vector<std::vector<MathType>> matrix_tmp = MultipleMatrices(matrix_t,matrix);
 	
 	std::vector<std::vector<MathType>> inverse_matrix_tmp= InverseMatrix(matrix_tmp);
 	std::vector<std::vector<MathType>> pseudoinverse_matrix = MultipleMatrices(inverse_matrix_tmp, matrix_t);

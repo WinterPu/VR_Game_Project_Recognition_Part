@@ -145,7 +145,7 @@ std::vector<std::vector<MathType>> MultipleMatrices(std::vector<std::vector<Math
 	std::vector<std::vector<MathType>> result(n1, std::vector<MathType>(m2));
 	for (int i = 0; i < n1; i++)
 	{
-		for (int j = 0; j <= m2; j++)
+		for (int j = 0; j < m2; j++)
 		{
 			result[i][j] = 0;
 			for (int k = 0; k < m1; k++)

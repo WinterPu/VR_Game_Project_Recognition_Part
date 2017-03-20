@@ -72,10 +72,10 @@ PatternType ClassifierDTW::Recognize(std::vector<Point3D> unknown_points)
 	for (int i = 0; i < pattern_feature.size(); i++)
 	{
 		std::vector<Point3D> pattern_points = pattern_feature[i].GetProjectedPoints();
-		int n_pattern = pattern_feature.size()+1;
-		int n_unknown = unknown_feature_points.size()+1;
-		std::vector<std::vector<MathType>> distance(n_pattern, std::vector<MathType>(n_unknown));
-		std::vector<std::vector<MathType>> dp_dtw_output(n_pattern, std::vector<MathType>(n_unknown));
+		int n_pattern = pattern_feature.size();
+		int n_unknown = unknown_feature_points.size();
+		std::vector<std::vector<MathType>> distance(n_pattern+1, std::vector<MathType>(n_unknown+1));
+		std::vector<std::vector<MathType>> dp_dtw_output(n_pattern+1, std::vector<MathType>(n_unknown+1));
 
 		//initialize
 		//........
@@ -84,7 +84,7 @@ PatternType ClassifierDTW::Recognize(std::vector<Point3D> unknown_points)
 		//k => kth element
 		for (int j = 1; j <= n_pattern; j++)
 		{
-			for (int k = 1; k <= n_unknown; k++)
+			for (int k = 1; k <=n_unknown; k++)
 			{
 				distance[j][k] = CalcDistanceEuclid3D(pattern_points[j-1], unknown_feature_points[k-1]);
 			}

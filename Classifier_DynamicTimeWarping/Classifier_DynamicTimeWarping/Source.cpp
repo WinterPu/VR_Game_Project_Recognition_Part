@@ -6,10 +6,10 @@ int main()
 {
 	ClassifierDTW classifier;
 	classifier.CreatePatternSet("C:/Users/Winter Pu/Desktop/pattern");
-	vector<vector<Point3D>> patterns = classifier.ReadPatternsFromFiles("C:/Users/Winter Pu/Desktop/pattern/sample");
+	vector<vector<Point3D>> patterns = classifier.ReadPatternsFromFiles("C:/Users/Winter Pu/Desktop/sample");
 	for (int i = 0; i < patterns.size(); i++)
 	{
-		cout << (PatternType)classifier.Recognize(patterns[i]);
+		cout << (PatternType)classifier.Recognize(patterns[i]) << endl;
 	}
 
 	return 0;
