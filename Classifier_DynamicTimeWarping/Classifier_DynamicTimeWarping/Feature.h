@@ -3,7 +3,8 @@
 #define FEATURE_H
 #include<vector>
 #include "MyMath.h"
-
+#include "DebugTools.h"
+#include "Exception.h"
 struct  PlaneFactors
 {
 	MathType a,b,c,d;

@@ -10,6 +10,30 @@ MathType CalcDistanceEuclid3D(Point3D point1, Point3D point2)
 	return sqrt(Square(point1.x - point2.x) + Square(point1.y - point2.y) + Square(point1.z - point2.z));
 }
 
+cv::Mat ConvertToMatrixCV(std::vector<Point3D> points) {
+	cv::Mat matrix(points.size(), 3, MatrixType);
+	for (int i = 0; i < matrix.rows; i++)
+	{
+		matrix.at<MathType>(i, 0) = points[i].x;
+		matrix.at<MathType>(i, 1) = points[i].y;
+		matrix.at<MathType>(i, 2) = points[i].z;
+	}
+	return matrix;
+}
+
+std::vector<std::vector<MathType>> ConvertToVector(cv::Mat cv_matrix) {
+	int n_rows = cv_matrix.rows;
+	int n_cols = cv_matrix.cols;
+	std::vector<std::vector<MathType>> matrix(n_rows, std::vector<MathType>(n_cols));
+	for (int i = 0; i < n_rows; i++)
+	{
+		for (int j = 0; j < n_cols; j++)
+		{
+			matrix[i][j] = cv_matrix.at<MathType>(i, j);
+		}
+	}
+	return matrix;
+}
 // n*3 matrix
 std::vector<std::vector<MathType>> ConvertToMatrix(std::vector<Point3D> points)
 {
