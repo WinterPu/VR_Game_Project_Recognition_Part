@@ -6,7 +6,7 @@
 #include "core/core.hpp"
 
 #define MAX_VALUE 99999999
-#define MIN_VALUE -99999
+#define MIN_VALUE -999999
 typedef double MathType;
 #define MatrixType CV_64F 
 

@@ -116,7 +116,7 @@ PatternType Classifier::RecognizeDTW(std::vector<Point3D> unknown_points)
 // Smith Waterman
 int GetScore(Point3D point1,Point3D point2) {
 	int score = 3;
-	MathType evaluated_distance = 10;
+	MathType evaluated_distance = 0.05;
 	MathType distance = CalcDistanceEuclid3D(point1,point2);
 	if (distance <= evaluated_distance)
 		return score;

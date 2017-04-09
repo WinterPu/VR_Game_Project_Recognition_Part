@@ -10,6 +10,14 @@ struct  PlaneFactors
 	MathType a,b,c,d;
 };
 
+struct PatternFrame {
+	MathType x_left;
+	MathType x_right;
+	MathType x_length;
+	MathType y_top;
+	MathType y_bottom;
+	MathType y_length;
+};
 
 class Feature {
 public:

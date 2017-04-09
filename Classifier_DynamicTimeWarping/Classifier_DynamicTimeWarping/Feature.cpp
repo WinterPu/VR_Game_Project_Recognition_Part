@@ -132,24 +132,25 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 	file1.close();
 #endif
 
-	//Use the mean point as the center
+	////Use the mean point as the center
 
-	Point3D center_point;
-	center_point.x = center_point.y = center_point.z = 0;
-	int num_points = projected_points.size();
-	for (int i = 0; i < projected_points.size(); i++)
-	{
-		center_point.x += projected_points[i].x;
-		center_point.y += projected_points[i].y;
-	}
-	center_point.x /= (MathType)num_points;
-	center_point.y /= (MathType)num_points;
+	//Point3D center_point;
+	//center_point.x = center_point.y = center_point.z = 0;
+	//int num_points = projected_points.size();
+	//for (int i = 0; i < projected_points.size(); i++)
+	//{
+	//	center_point.x += projected_points[i].x;
+	//	center_point.y += projected_points[i].y;
+	//}
+	//center_point.x /= (MathType)num_points;
+	//center_point.y /= (MathType)num_points;
 
-	for (int i = 0; i < projected_points.size(); i++)
-	{
-		projected_points[i].x -= center_point.x;
-		projected_points[i].y -= center_point.y;
-	}
+	//for (int i = 0; i < projected_points.size(); i++)
+	//{
+	//	projected_points[i].x -= center_point.x;
+	//	projected_points[i].y -= center_point.y;
+	//}
+
 #if DEBUG_MODE_OUTPUT_MESSAGE
 	std::string path2= "C:/Users/Winter Pu/Desktop/moved/";
 	std::string file_name2 = path2 + "pattern" + std::to_string(file_count++) + ".txt";
@@ -164,6 +165,37 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 	}
 	file2.close();
 #endif
+
+
+	PatternFrame frame;
+	frame.x_left = MAX_VALUE;
+	frame.x_right = MIN_VALUE;
+
+	frame.y_bottom = MAX_VALUE;
+	frame.y_top = MIN_VALUE;
+	for (int i = 0; i < projected_points.size(); i++)
+	{
+		if (frame.x_left > projected_points[i].x)
+			frame.x_left = projected_points[i].x;
+		if (frame.x_right < projected_points[i].x)
+			frame.x_right = projected_points[i].x;
+
+		if (frame.y_bottom > projected_points[i].y)
+			frame.y_bottom = projected_points[i].y;
+		if (frame.y_top < projected_points[i].y)
+			frame.y_top = projected_points[i].y;
+	}
+	frame.x_length = frame.x_right - frame.x_left;
+	frame.y_length = frame.y_top - frame.y_bottom;
+
+	Point3D center_point;
+	center_point.x = frame.x_left;
+	center_point.y = frame.y_bottom;
+	for (int i = 0; i < projected_points.size(); i++) {
+		projected_points[i].x = (projected_points[i].x - center_point.x) / frame.x_length;
+		projected_points[i].y = (projected_points[i].y - center_point.y) / frame.y_length;
+		projected_points[i].z = 0;
+	}
 }
 
 std::vector<Point3D> Feature::GetProjectedPoints()
