@@ -36,4 +36,5 @@ private:
 	std::vector<Feature> pattern_feature;
 };
 
+int EvaluateDistance(int a, int b);
 #endif

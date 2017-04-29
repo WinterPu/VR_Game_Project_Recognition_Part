@@ -196,9 +196,90 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 		projected_points[i].y = (projected_points[i].y - center_point.y) / frame.y_length;
 		projected_points[i].z = 0;
 	}
+
+
+	Point3D vector_base = { projected_points[1].x - projected_points[0].x,projected_points[1].y - projected_points[0].y,projected_points[1].z - projected_points[0].z };
+	std::vector<DirCode> dircode_list;
+	for (int i = 2; i < projected_points.size(); i++)
+	{
+		Point3D vector_test = { projected_points[i].x - projected_points[i - 1].x, projected_points[i].y - projected_points[i - 1].y ,projected_points[i].z - projected_points[i - 1].z };
+		DirCode dir_code = GenerateDirCode(vector_base, vector_test);
+		if (dircode_list.size() > 0)
+			if (dir_code == dircode_list[dircode_list.size() - 1])
+				continue;
+
+		dircode_list.push_back(dir_code);
+	}
+
+	for (int i = 1; i < dircode_list.size(); i++)
+	{
+		////better for waterman
+		//direction_feature.push_back((int)(dircode_list[i]-dircode_list[i-1]));
+		direction_feature.push_back(CalcDirectionDistance(dircode_list[i - 1], dircode_list[i]));
+	}
+
+#if DEBUG_MODE_OUTPUT_MESSAGE
+	std::string path3 = "C:/Users/Winter Pu/Desktop/normalization/";
+	std::string file_name3 = path3 + "pattern" + std::to_string(file_count++) + ".txt";
+	std::fstream file3(file_name3, std::ios::out);
+	if (!file3.is_open())
+	{
+		std::cout << "Error" << std::endl;
+	}
+	for (int i = 0; i < projected_points.size(); i++)
+	{
+		file3 << projected_points[i].x << " " << projected_points[i].y << " " << projected_points[i].z << std::endl;
+	}
+	file3.close();
+#endif
 }
 
 std::vector<Point3D> Feature::GetProjectedPoints()
 {
 	return projected_points;
+}
+
+DirCode Feature::GenerateDirCode(Point3D base, Point3D vector)
+{
+	MathType angle = CalcAngle(base, vector);
+	return GetDirCodeByAngle(angle);
+}
+
+DirCode Feature::GetDirCodeByAngle(MathType angle)
+{
+	if (angle <= 45)
+		return TopRight;
+	else if (angle > 45 && angle <= 90)
+		return Right;
+	else if (angle > 90 && angle <= 135)
+		return BottomRight;
+	else if (angle > 135 && angle <= 180)
+		return Bottom;
+	else if (angle > 180 && angle <= 225)
+		return BottomLeft;
+	else if (angle > 225 && angle <= 270)
+		return Left;
+	else if (angle > 270 && angle <= 315)
+		return TopLeft;
+	else if (angle > 315 && angle <= 360)
+		return Top;
+}
+
+std::vector<int> Feature::GetDirectionFeature()
+{
+	return direction_feature;
+}
+
+
+int CalcDirectionDistance(DirCode front, DirCode rear)
+{
+	//int tmp = a > b ? a - b : b - a;
+	//return tmp >= 4 ? 8 - tmp : tmp;
+	int value = rear - front;
+	if (value < -4)
+		value += 8;
+	else if (value > 4)
+		value -= 8;
+
+	return value;
 }

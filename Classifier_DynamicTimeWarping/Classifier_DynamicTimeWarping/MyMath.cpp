@@ -10,6 +10,34 @@ MathType CalcDistanceEuclid3D(Point3D point1, Point3D point2)
 	return sqrt(Square(point1.x - point2.x) + Square(point1.y - point2.y) + Square(point1.z - point2.z));
 }
 
+MathType CalcAngle(Point3D base, Point3D vector)
+{
+	MathType cross_product = vector.x * base.y - vector.y*base.x;
+
+	MathType base_norm = sqrt(Square(base.x) + Square(base.y));
+	MathType vector_norm = sqrt(Square(vector.x) + Square(vector.y));
+	MathType angle = acos((double)((base.x * vector.x + base.y * vector.y) / (base_norm * vector_norm))) / PI * 180.0;
+	
+	if (cross_product > 0)
+		return angle;
+	else if (cross_product < 0)
+		return 360 - angle;
+	else {
+		if (angle < 90)
+			return 0;
+		else if (angle > 90)
+			return 180;
+	}
+	return angle;
+}
+
+Point3D RotateVector(Point3D base, MathType angle)
+{
+	angle = angle / 180.0 *PI;
+	Point3D new_vector = { base.x*cos(angle) - base.y*sin(angle), base.x*sin(angle) + base.y*cos(angle),base.z };
+	return new_vector;
+}
+
 cv::Mat ConvertToMatrixCV(std::vector<Point3D> points) {
 	cv::Mat matrix(points.size(), 3, MatrixType);
 	for (int i = 0; i < matrix.rows; i++)

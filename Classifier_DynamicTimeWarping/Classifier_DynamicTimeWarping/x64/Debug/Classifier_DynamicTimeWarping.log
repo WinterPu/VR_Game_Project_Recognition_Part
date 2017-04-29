@@ -1,11 +1,18 @@
-﻿  Classifier.cpp
+﻿  Source.cpp
 e:\programming_tools\opencv\opencv\build\include\opencv2\core\mat.hpp(2586): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
 e:\programming_tools\opencv\opencv\build\include\opencv2\core\persistence.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
 e:\programming_tools\opencv\opencv\build\include\opencv2\core\utility.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
 e:\programming_tools\opencv\opencv\build\include\opencv2\core\utility.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
-d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier.cpp(78): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier.cpp(79): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier.cpp(140): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier.cpp(141): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Classifier.cpp
+e:\programming_tools\opencv\opencv\build\include\opencv2\core\mat.hpp(2586): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+e:\programming_tools\opencv\opencv\build\include\opencv2\core\persistence.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+e:\programming_tools\opencv\opencv\build\include\opencv2\core\utility.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+e:\programming_tools\opencv\opencv\build\include\opencv2\core\utility.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier.cpp(215): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier.cpp(216): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier.cpp(296): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier.cpp(297): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\classifier.cpp(281): warning C4715: 'GetScore': not all control paths return a value
   Classifier_DynamicTimeWarping.vcxproj -> d:\documents\visual studio 2017\Projects\Classifier_DynamicTimeWarping\x64\Debug\Classifier_DynamicTimeWarping.exe
   Classifier_DynamicTimeWarping.vcxproj -> d:\documents\visual studio 2017\Projects\Classifier_DynamicTimeWarping\x64\Debug\Classifier_DynamicTimeWarping.pdb (Partial PDB)

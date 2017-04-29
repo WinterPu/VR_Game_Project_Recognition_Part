@@ -21,6 +21,5 @@ int main()
 	{
 		cout << (PatternType)classifier.RecognizeSW(patterns[i]) << endl;
 	}
-
 	return 0;
 }
