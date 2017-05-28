@@ -10,6 +10,11 @@ MathType CalcDistanceEuclid3D(Point3D point1, Point3D point2)
 	return sqrt(Square(point1.x - point2.x) + Square(point1.y - point2.y) + Square(point1.z - point2.z));
 }
 
+MathType CalcDistanceEuclid2D(Point2D point1, Point2D point2)
+{
+	return sqrt(Square(point1.x - point2.x) + Square(point1.y - point2.y));
+}
+
 MathType CalcAngle(Point3D base, Point3D vector)
 {
 	MathType cross_product = vector.x * base.y - vector.y*base.x;
@@ -206,4 +211,47 @@ std::vector<std::vector<MathType>> MultipleMatrices(std::vector<std::vector<Math
 	}
 	return result;
 
+}
+
+std::vector<Point2D> Resample(std::vector<Point2D> points)
+{
+	double interval = GetPathLength(points) / (RESAMPLE_NUM - 1);
+	double D = 0;
+	std::vector<Point2D> new_points;
+	new_points.push_back(points.front());
+	
+	for (int i = 1; i < (int)points.size(); i++)
+	{
+		Point2D currentPoint = points[i];
+		Point2D previousPoint = points[i - 1];
+		double d = CalcDistanceEuclid2D(previousPoint, currentPoint);
+		if ((D + d) >= interval)
+		{
+			double qx = previousPoint.x + ((interval - D) / d) * (currentPoint.x - previousPoint.x);
+			double qy = previousPoint.y + ((interval - D) / d) * (currentPoint.y - previousPoint.y);
+			Point2D point(qx, qy);
+			new_points.push_back(point);
+			points.insert(points.begin() + i, point);
+			D = 0.0;
+		}
+		else D += d;
+	}
+	if (new_points.size() == (RESAMPLE_NUM- 1))
+	{
+		new_points.push_back(points.back());
+	}
+	return new_points;
+
+}
+
+double GetPathLength(std::vector<Point2D> points)
+{
+	double length = 0;
+	if (points.size() <= 1)
+		return 0;
+	for (int i = 1; i < points.size(); i++)
+	{
+		length += CalcDistanceEuclid2D(points[i],points[i-1]);
+	}
+	return length;
 }

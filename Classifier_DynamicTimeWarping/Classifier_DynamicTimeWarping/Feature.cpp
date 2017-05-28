@@ -66,7 +66,7 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 //	std::cout << "Running time is: " << static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC * 1000 << "ms" << std::endl;
 //#endif // DEBUG_MODE
 
-	
+
 
 	//** Rotate the plane to x-y plane
 	//plane factors
@@ -88,12 +88,12 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 	0,                               1,          0
 	-a/sqrt(a^2+b^2+c^2),            0, sqrt(b^2+c^2)/sqrt(a^2+b^2+c^2)
 	*/
-	MathType denominator2 = sqrt(a*a+b*b + c*c);
-	cv::Mat Rotate_Matrix2=(cv::Mat_<MathType>(3, 3) <<denominator1/ denominator2,0,a/ denominator2,0,1,0,-a/ denominator2,0, denominator1/ denominator2);
+	MathType denominator2 = sqrt(a*a + b*b + c*c);
+	cv::Mat Rotate_Matrix2 = (cv::Mat_<MathType>(3, 3) << denominator1 / denominator2, 0, a / denominator2, 0, 1, 0, -a / denominator2, 0, denominator1 / denominator2);
 	//**End preparation for rotating the plane to x-y plane
 
 
-
+	std::vector<Point3D> projected_points3d;
 	// Get Projected Points
 	//(u,v,w) => ( ax+by+cz+d= 0 ) =>(x0,y0,z0)
 	for (int i = 0; i < pattern_points.size(); i++)
@@ -110,11 +110,11 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 
 		cv::Mat point_matrix = (cv::Mat_<MathType>(1, 3) << projected_point.x, projected_point.y, projected_point.z);
 		point_matrix = point_matrix*Rotate_Matrix1*Rotate_Matrix2;
-		
-		projected_point.x = point_matrix.at<MathType>(0,0);
+
+		projected_point.x = point_matrix.at<MathType>(0, 0);
 		projected_point.y = point_matrix.at<MathType>(0, 1);
 		projected_point.z = point_matrix.at<MathType>(0, 2);
-		projected_points.push_back(projected_point);
+		projected_points3d.push_back(projected_point);
 	}
 
 #if DEBUG_MODE_OUTPUT_MESSAGE
@@ -127,7 +127,7 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 	}
 	for (int i = 0; i < projected_points.size(); i++)
 	{
-		file1 << projected_points[i].x << " " << projected_points[i].y << " " << projected_points[i].z << std::endl;
+		file1 << projected_points3d[i].x << " " << projected_points3d[i].y << " " << projected_points3d[i].z << std::endl;
 	}
 	file1.close();
 #endif
@@ -151,20 +151,34 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 	//	projected_points[i].y -= center_point.y;
 	//}
 
-#if DEBUG_MODE_OUTPUT_MESSAGE
-	std::string path2= "C:/Users/Winter Pu/Desktop/moved/";
-	std::string file_name2 = path2 + "pattern" + std::to_string(file_count++) + ".txt";
-	std::fstream file2(file_name2, std::ios::out);
-	if (!file2.is_open())
+//#if DEBUG_MODE_OUTPUT_MESSAGE
+//	std::string path2 = "C:/Users/Winter Pu/Desktop/moved/";
+//	std::string file_name2 = path2 + "pattern" + std::to_string(file_count++) + ".txt";
+//	std::fstream file2(file_name2, std::ios::out);
+//	if (!file2.is_open())
+//	{
+//		std::cout << "Error" << std::endl;
+//	}
+//	for (int i = 0; i < projected_points.size(); i++)
+//	{
+//		file2 << projected_points[i].x << " " << projected_points[i].y << " " << projected_points[i].z << std::endl;
+//	}
+//	file2.close();
+//#endif
+
+
+	//change from 3d to 2d
+	// the last point is so strange, so we remove it
+	for (int i = 0; i < projected_points3d.size()-1; i++)
 	{
-		std::cout << "Error" << std::endl;
+		Point2D point2d;
+		point2d.x = projected_points3d[i].x;
+		point2d.y = projected_points3d[i].y;
+		projected_points.push_back(point2d);
 	}
-	for (int i = 0; i < projected_points.size(); i++)
-	{
-		file2 << projected_points[i].x << " " << projected_points[i].y << " " << projected_points[i].z << std::endl;
-	}
-	file2.close();
-#endif
+
+
+
 
 
 	PatternFrame frame;
@@ -188,34 +202,15 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 	frame.x_length = frame.x_right - frame.x_left;
 	frame.y_length = frame.y_top - frame.y_bottom;
 
-	Point3D center_point;
+	Point2D center_point;
 	center_point.x = frame.x_left;
 	center_point.y = frame.y_bottom;
 	for (int i = 0; i < projected_points.size(); i++) {
 		projected_points[i].x = (projected_points[i].x - center_point.x) / frame.x_length;
 		projected_points[i].y = (projected_points[i].y - center_point.y) / frame.y_length;
-		projected_points[i].z = 0;
-	}
 
-
-	Point3D vector_base = { projected_points[1].x - projected_points[0].x,projected_points[1].y - projected_points[0].y,projected_points[1].z - projected_points[0].z };
-	std::vector<DirCode> dircode_list;
-	for (int i = 2; i < projected_points.size(); i++)
-	{
-		Point3D vector_test = { projected_points[i].x - projected_points[i - 1].x, projected_points[i].y - projected_points[i - 1].y ,projected_points[i].z - projected_points[i - 1].z };
-		DirCode dir_code = GenerateDirCode(vector_base, vector_test);
-		if (dircode_list.size() > 0)
-			if (dir_code == dircode_list[dircode_list.size() - 1])
-				continue;
-
-		dircode_list.push_back(dir_code);
-	}
-
-	for (int i = 1; i < dircode_list.size(); i++)
-	{
-		////better for waterman
-		//direction_feature.push_back((int)(dircode_list[i]-dircode_list[i-1]));
-		direction_feature.push_back(CalcDirectionDistance(dircode_list[i - 1], dircode_list[i]));
+		//projected_points[i].x = (projected_points[i].x - center_point.x);
+		//projected_points[i].y = (projected_points[i].y - center_point.y);
 	}
 
 #if DEBUG_MODE_OUTPUT_MESSAGE
@@ -226,60 +221,18 @@ void Feature::ExtractPatternFeature(std::vector<Point3D> pattern_points)
 	{
 		std::cout << "Error" << std::endl;
 	}
-	for (int i = 0; i < projected_points.size(); i++)
+	for (int i = 0; i < projected_points.size() - 1; i++)
 	{
-		file3 << projected_points[i].x << " " << projected_points[i].y << " " << projected_points[i].z << std::endl;
+		file3 << projected_points[i].x << " " << projected_points[i].y << " " << std::endl;
 	}
 	file3.close();
 #endif
+
+
+	projected_points = Resample(projected_points);
 }
 
-std::vector<Point3D> Feature::GetProjectedPoints()
+std::vector<Point2D> Feature::GetProjectedPoints()
 {
 	return projected_points;
-}
-
-DirCode Feature::GenerateDirCode(Point3D base, Point3D vector)
-{
-	MathType angle = CalcAngle(base, vector);
-	return GetDirCodeByAngle(angle);
-}
-
-DirCode Feature::GetDirCodeByAngle(MathType angle)
-{
-	if (angle <= 45)
-		return TopRight;
-	else if (angle > 45 && angle <= 90)
-		return Right;
-	else if (angle > 90 && angle <= 135)
-		return BottomRight;
-	else if (angle > 135 && angle <= 180)
-		return Bottom;
-	else if (angle > 180 && angle <= 225)
-		return BottomLeft;
-	else if (angle > 225 && angle <= 270)
-		return Left;
-	else if (angle > 270 && angle <= 315)
-		return TopLeft;
-	else if (angle > 315 && angle <= 360)
-		return Top;
-}
-
-std::vector<int> Feature::GetDirectionFeature()
-{
-	return direction_feature;
-}
-
-
-int CalcDirectionDistance(DirCode front, DirCode rear)
-{
-	//int tmp = a > b ? a - b : b - a;
-	//return tmp >= 4 ? 8 - tmp : tmp;
-	int value = rear - front;
-	if (value < -4)
-		value += 8;
-	else if (value > 4)
-		value -= 8;
-
-	return value;
 }
