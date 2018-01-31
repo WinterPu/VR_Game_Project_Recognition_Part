@@ -1,4 +1,0 @@
-﻿  Source.cpp
-d:\documents\visual studio 2017\projects\classifier_dynamictimewarping\classifier_dynamictimewarping\source.cpp(10): warning C4018: '<': signed/unsigned mismatch
-  Classifier_DynamicTimeWarping.vcxproj -> d:\documents\visual studio 2017\Projects\Classifier_DynamicTimeWarping\Debug\Classifier_DynamicTimeWarping.exe
-  Classifier_DynamicTimeWarping.vcxproj -> d:\documents\visual studio 2017\Projects\Classifier_DynamicTimeWarping\Debug\Classifier_DynamicTimeWarping.pdb (Partial PDB)
